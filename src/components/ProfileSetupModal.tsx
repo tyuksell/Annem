@@ -82,14 +82,14 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#5a5a40]/60 backdrop-blur-xs overflow-y-auto cursor-pointer"
+      className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-2 sm:p-4 pb-0 sm:pb-4 bg-[#5a5a40]/60 backdrop-blur-xs overflow-y-auto cursor-pointer"
     >
       <motion.div
         onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
-        className="bg-white rounded-3xl max-w-xl w-full shadow-2xl p-6 sm:p-8 relative space-y-6 border border-[#e5e0d5] my-8 cursor-default"
+        className="bg-white rounded-3xl max-w-[min(100%,32rem)] w-full shadow-2xl p-4 sm:p-8 relative space-y-5 border border-[#e5e0d5] my-0 sm:my-8 cursor-default max-h-[calc(100vh-1rem)] overflow-y-auto sm:overflow-visible"
       >
         {/* Close Button if user closes voluntary */}
         <button
@@ -145,7 +145,7 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
           </div>
 
           {/* Boy, Başlangıç, Güncel, Hedef, Hedef Süre */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
             <div>
               <label className="text-xs font-bold text-[#5a5a40] block mb-1">Boy (cm)</label>
               <input

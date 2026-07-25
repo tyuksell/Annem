@@ -1,0 +1,6 @@
+{
+  "name": "Annem - Kilo Verme & Yaşam Takip",
+  "description": "Kişisel kilo verme, motivasyon, beslenme ve günlük yaşam takip sistemi",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

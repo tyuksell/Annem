@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+}
+
+@layer base {
+  html, body, select, option, input, textarea {
+    color-scheme: light;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #fcfaf7;
+    color: #38423b;
+  }
+  
+  h1, h2, .font-serif {
+    font-family: 'Lora', Georgia, serif;
+  }
+
+  select {
+    color-scheme: light;
+    background-color: #ffffff;
+    color: #3d5a45;
+  }
+
+  option {
+    color-scheme: light;
+    background-color: #ffffff;
+    color: #3d5a45;
+  }
+}
+
+/* Custom scrollbar for natural tones theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d8e2d7;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a6b57;
+}
+
+/* Modern inner scrollbar for modals & panels */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d4cebe;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f07052;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d4cebe transparent;
+}
+
+/* Utility to hide scrollbar completely */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}

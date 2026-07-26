@@ -106,6 +106,23 @@ export interface ReminderSetting {
   daysText: string;
 }
 
+export interface SpiritualQuote {
+  id: string;
+  text: string;
+  source: string;
+}
+
+export interface DhikrItem {
+  id: string;
+  title: string;
+  phrase: string;
+  targetCount: number;
+  currentCount: number;
+  category: string;
+  meaning?: string;
+  completedDates: string[];
+}
+
 export interface Badge {
   id: string;
   title: string;
@@ -125,6 +142,7 @@ export interface ChatMessage {
 export type TabType =
   | 'home'
   | 'plan'
+  | 'husu'
   | 'nutrition'
   | 'water'
   | 'weight'

@@ -12,7 +12,8 @@ import {
   ShoppingItem, 
   ReminderSetting, 
   Badge, 
-  TabType 
+  TabType,
+  DhikrItem 
 } from './types';
 import { 
   initialProfile, 
@@ -26,12 +27,14 @@ import {
   initialMeasurements, 
   initialNotes, 
   initialShopping, 
-  initialReminders 
+  initialReminders,
+  initialDhikrList 
 } from './data';
 import { Header } from './components/Header';
 import { Navbar } from './components/Navbar';
 import { HomeTab } from './components/HomeTab';
 import { PlanTab } from './components/PlanTab';
+import { HusuTab } from './components/HusuTab';
 import { NutritionTab } from './components/NutritionTab';
 import { WaterTab } from './components/WaterTab';
 import { WeightTab } from './components/WeightTab';
@@ -85,12 +88,15 @@ export default function App() {
   const [shoppingList, setShoppingList] = useLocalStorage<ShoppingItem[]>('annem_shopping_v10', initialShopping);
   const [reminders, setReminders] = useLocalStorage<ReminderSetting[]>('annem_reminders_v10', initialReminders);
   const [badges, setBadges] = useLocalStorage<Badge[]>('annem_badges_v10', initialBadges);
+  const [dhikrList, setDhikrList] = useLocalStorage<DhikrItem[]>('annem_dhikr_v10', initialDhikrList);
 
   // Tab & Modal Navigation
   const [currentTab, setCurrentTab] = useState<TabType>('home');
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
+  const [authMode, setAuthMode] = useState<'login' | 'forgot'>('login');
   const [isSetupModalOpen, setIsSetupModalOpen] = useState<boolean>(!userProfile.isProfileCreated);
+  const [setupProfile, setSetupProfile] = useState<UserProfile | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [quoteIndex, setQuoteIndex] = useState<number>(() => Math.floor(Math.random() * motivationalQuotes.length));
 
@@ -159,6 +165,19 @@ export default function App() {
     }
   }, [notes]);
 
+  useEffect(() => {
+    if (!dhikrList || dhikrList.length === 0) {
+      setDhikrList(initialDhikrList);
+    } else {
+      const missingDefaults = initialDhikrList.filter(
+        (init) => !dhikrList.some((existing) => existing.id === init.id || existing.phrase === init.phrase)
+      );
+      if (missingDefaults.length > 0) {
+        setDhikrList([...missingDefaults, ...dhikrList]);
+      }
+    }
+  }, [dhikrList]);
+
   // Profile Save Handler
   const handleSaveProfile = (newProfile: UserProfile) => {
     setUserProfile(newProfile);
@@ -192,6 +211,22 @@ export default function App() {
 
     return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
   }, []);
+
+  const openProfileSetup = (profile?: UserProfile | null) => {
+    setSetupProfile(profile === undefined ? userProfile : profile);
+    setIsSetupModalOpen(true);
+  };
+
+  const openAuthModal = (mode: 'login' | 'register' | 'forgot' = 'login') => {
+    if (mode === 'register') {
+      openProfileSetup(null);
+      setIsAuthOpen(false);
+      return;
+    }
+
+    setAuthMode(mode === 'login' ? 'login' : 'forgot');
+    setIsAuthOpen(true);
+  };
 
   const installPwa = () => {
     if (deferredPrompt) {
@@ -427,7 +462,63 @@ export default function App() {
       isLoggedIn: false,
     }));
     setCurrentTab('home');
-    setIsAuthOpen(true);
+    openAuthModal('login');
+  };
+
+  // Dhikr Handlers
+  const incrementDhikr = (id: string, amount: number = 1) => {
+    setDhikrList((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        const newCount = item.currentCount + amount;
+        const todayStr = new Date().toISOString().split('T')[0];
+        const isNewlyCompleted = newCount >= item.targetCount && !item.completedDates.includes(todayStr);
+        const updatedCompletedDates = isNewlyCompleted
+          ? [...item.completedDates, todayStr]
+          : item.completedDates;
+        return { ...item, currentCount: newCount, completedDates: updatedCompletedDates };
+      })
+    );
+  };
+
+  const decrementDhikr = (id: string) => {
+    setDhikrList((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        return { ...item, currentCount: Math.max(0, item.currentCount - 1) };
+      })
+    );
+  };
+
+  const resetDhikr = (id: string) => {
+    setDhikrList((prev) =>
+      prev.map((item) => {
+        if (item.id !== id) return item;
+        return { ...item, currentCount: 0 };
+      })
+    );
+  };
+
+  const resetAllDhikrs = () => {
+    setDhikrList((prev) => prev.map((item) => ({ ...item, currentCount: 0 })));
+  };
+
+  const addDhikr = (title: string, phrase: string, targetCount: number, category: string, meaning?: string) => {
+    const newItem: DhikrItem = {
+      id: Date.now().toString(),
+      title,
+      phrase,
+      targetCount,
+      currentCount: 0,
+      category,
+      meaning,
+      completedDates: [],
+    };
+    setDhikrList((prev) => [...prev, newItem]);
+  };
+
+  const deleteDhikr = (id: string) => {
+    setDhikrList((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
@@ -439,8 +530,8 @@ export default function App() {
         setActiveTab={setCurrentTab}
         userProfile={userProfile}
         daysRemaining={daysRemaining}
-        openAuthModal={() => setIsAuthOpen(true)}
-        openSetupModal={() => setIsSetupModalOpen(true)}
+        openAuthModal={() => openAuthModal('login')}
+        openSetupModal={() => openProfileSetup()}
         isPwaInstalled={isPwaInstalled}
         installPwa={installPwa}
       />
@@ -460,8 +551,8 @@ export default function App() {
         setActiveTab={setCurrentTab}
         userProfile={userProfile}
         daysRemaining={daysRemaining}
-        openAuthModal={() => setIsAuthOpen(true)}
-        openSetupModal={() => setIsSetupModalOpen(true)}
+        openAuthModal={() => openAuthModal('login')}
+        openSetupModal={() => openProfileSetup()}
       />
 
       {/* Main Container View Area */}
@@ -479,7 +570,7 @@ export default function App() {
             setActiveTab={setCurrentTab}
             toggleRoutineItem={toggleRoutineItem}
             incrementWater={incrementWater}
-            openSetupModal={() => setIsSetupModalOpen(true)}
+            openSetupModal={() => openProfileSetup()}
           />
         )}
 
@@ -489,6 +580,18 @@ export default function App() {
             toggleRoutineItem={toggleRoutineItem}
             addRoutineItem={addRoutineItem}
             deleteRoutineItem={deleteRoutineItem}
+          />
+        )}
+
+        {currentTab === 'husu' && (
+          <HusuTab
+            dhikrList={dhikrList}
+            incrementDhikr={incrementDhikr}
+            decrementDhikr={decrementDhikr}
+            resetDhikr={resetDhikr}
+            addDhikr={addDhikr}
+            deleteDhikr={deleteDhikr}
+            resetAllDhikrs={resetAllDhikrs}
           />
         )}
 
@@ -519,8 +622,8 @@ export default function App() {
             userProfile={userProfile}
             weightLogs={weightLogs}
             measurements={measurements}
-            addWeightLog={addWeightLog}
-            addMeasurement={addMeasurement}
+            onAddWeightLog={addWeightLog}
+            onAddMeasurement={addMeasurement}
           />
         )}
 
@@ -594,14 +697,18 @@ export default function App() {
         {currentTab === 'profile' && (
           <ProfileTab
             userProfile={userProfile}
-            updateProfile={updateProfile}
+            onUpdateProfile={updateProfile}
             onLogout={logoutUser}
+            onOpenAuthModal={openAuthModal}
           />
         )}
 
         {currentTab === 'ai' && (
           <AiAssistantTab
             userProfile={userProfile}
+            routineList={routineList}
+            waterLog={waterLog}
+            weightLogs={weightLogs}
           />
         )}
       </main>
@@ -612,6 +719,11 @@ export default function App() {
         onClose={() => setIsAuthOpen(false)}
         userProfile={userProfile}
         loginUser={loginUser}
+        initialMode={authMode}
+        onRegister={() => {
+          setIsAuthOpen(false);
+          openProfileSetup(null);
+        }}
       />
 
       {/* User Profile Creation Modal */}
@@ -619,7 +731,7 @@ export default function App() {
         isOpen={isSetupModalOpen}
         onClose={() => setIsSetupModalOpen(false)}
         onSaveProfile={handleSaveProfile}
-        existingProfile={userProfile}
+        existingProfile={setupProfile ?? undefined}
       />
 
       {/* Recipe Detail Modal */}

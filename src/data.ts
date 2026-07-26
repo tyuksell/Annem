@@ -9,7 +9,9 @@ import {
   ShoppingItem,
   ReminderSetting,
   WeightLog,
-  BodyMeasurement
+  BodyMeasurement,
+  DhikrItem,
+  SpiritualQuote
 } from './types';
 
 export const initialProfile: UserProfile = {
@@ -920,4 +922,100 @@ export const initialReminders: ReminderSetting[] = [
   { id: 'rem2', type: 'exercise', title: 'Lohusa Egzersiz Molası 🧘‍♀️', time: '11:00', enabled: true, daysText: 'Haftaiçi' },
   { id: 'rem3', type: 'vitamin', title: 'Süt Artıran Çay & Vitamin 🍵', time: '15:30', enabled: true, daysText: 'Her Gün' },
   { id: 'rem4', type: 'weigh', title: 'Haftalık Kilo Kontrolü ⚖️', time: '09:00', enabled: true, daysText: 'Pazartesi' }
+];
+
+export const initialDhikrList: DhikrItem[] = [
+  {
+    id: 'd1',
+    title: 'Sabah Namazı Sonrası',
+    phrase: 'Sübhânallahi ve bihamdihî',
+    targetCount: 100,
+    currentCount: 0,
+    category: 'Sabah',
+    meaning: 'Allah’ı hamd ile tesbih ederim. Kalbe huzur, güne bereket ve ferahlık verir.',
+    completedDates: []
+  },
+  {
+    id: 'd2',
+    title: 'Mutfak İşleri Saati',
+    phrase: 'Lâ havle velâ kuvvete illâ billâhil aliyyil azîm',
+    targetCount: 100,
+    currentCount: 0,
+    category: 'Mutfak',
+    meaning: 'Güç ve kuvvet ancak yüce ve azamet sahibi olan Allah’ındır. Ev işlerinde sabır ve kolaylık sağlar.',
+    completedDates: []
+  },
+  {
+    id: 'd3',
+    title: 'Ertuğrul Bebek Uyurken',
+    phrase: 'Ya Hâfız, Ya Şâfî',
+    targetCount: 100,
+    currentCount: 0,
+    category: 'Ertuğrul',
+    meaning: 'Ey Koruyan ve Ey Şifa Veren Allah’ım. Bebeğin korunması, afiyeti ve anne kalbinin sükuneti için.',
+    completedDates: []
+  },
+  {
+    id: 'd4',
+    title: 'Gün Sonu Kapanış',
+    phrase: 'Estağfirullah el-Azîm',
+    targetCount: 100,
+    currentCount: 0,
+    category: 'Gece',
+    meaning: 'Yüce Allah’tan bağışlanma dilerim. Günün yorgunluğunu hafifletir, ruhu arındırıp huzur verir.',
+    completedDates: []
+  }
+];
+
+export const spiritualQuotes: SpiritualQuote[] = [
+  { id: 'q1', text: "Dikkat edin, kalpler ancak Allah'ı anmakla huzur ve sükûna kavuşur.", source: "Râ'd Suresi, 28. Âyet-i Kerîme" },
+  { id: 'q2', text: "Allah, hiç kimseye gücünün yettiğinden fazlasını yüklemez.", source: "Bakara Suresi, 286. Âyet-i Kerîme" },
+  { id: 'q3', text: "Şüphesiz güçlükle beraber bir kolaylık vardır.", source: "İnşirah Suresi, 5. Âyet-i Kerîme" },
+  { id: 'q4', text: "Rabbin seni terk etmedi ve sana darılmadı.", source: "Duhâ Suresi, 3. Âyet-i Kerîme" },
+  { id: 'q5', text: "Cennet, annelerin ayakları altındadır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q6', text: "Ben hüznümü ve kederimi ancak Allah'a arz ederim.", source: "Yûsuf Suresi, 86. Âyet-i Kerîme" },
+  { id: 'q7', text: "O ki, yaratan ve yol gösterendir.", source: "A'lâ Suresi, 2-3. Âyet-i Kerîme" },
+  { id: 'q8', text: "Bana dua edin, duanıza icabet edeyim.", source: "Mü'min Suresi, 60. Âyet-i Kerîme" },
+  { id: 'q9', text: "Rabbiniz şöyle buyurdu: Eğer şükrederseniz, elbette size nimetimi artırırım.", source: "İbrâhîm Suresi, 7. Âyet-i Kerîme" },
+  { id: 'q10', text: "Kullarıma söyle: En güzel sözü söylesinler.", source: "İsrâ Suresi, 53. Âyet-i Kerîme" },
+  { id: 'q11', text: "Nerede olursanız olun O sizinle beraberdir.", source: "Hadîd Suresi, 4. Âyet-i Kerîme" },
+  { id: 'q12', text: "Sabır ve namazla Allah'tan yardım isteyin.", source: "Bakara Suresi, 45. Âyet-i Kerîme" },
+  { id: 'q13', text: "En hayırlınız, ailesine karşı en hayırlı olanınızdır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q14', text: "İyi bilin ki Allah'ın yardımı pek yakındır.", source: "Bakara Suresi, 214. Âyet-i Kerîme" },
+  { id: 'q15', text: "Üzülme, şüphesiz Allah bizimledir.", source: "Tevbe Suresi, 40. Âyet-i Kerîme" },
+  { id: 'q16', text: "Güzel söz sadakadır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q17', text: "Rabbim! Göğsümü genişlet, işimi kolaylaştır.", source: "Tâhâ Suresi, 25-26. Âyet-i Kerîme" },
+  { id: 'q18', text: "Gevşemeyin, üzülmeyin; eğer iman etmişseniz en üstün sizsiniz.", source: "Âl-i İmrân Suresi, 139. Âyet-i Kerîme" },
+  { id: 'q19', text: "Allah merhametlilerin en merhametlisidir.", source: "Yûsuf Suresi, 92. Âyet-i Kerîme" },
+  { id: 'q20', text: "Göklerin ve yerin orduları Allah'ındır.", source: "Fetih Suresi, 4. Âyet-i Kerîme" },
+  { id: 'q21', text: "Allah sabredenleri sever.", source: "Âl-i İmrân Suresi, 146. Âyet-i Kerîme" },
+  { id: 'q22', text: "Sizin en hayırlınız ahlakı en güzel olanınızdır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q23', text: "Kolaylaştırınız, zorlaştırmayınız; müjdeleyiniz, nefret ettirmeyiniz.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q24', text: "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver.", source: "Bakara Suresi, 201. Âyet-i Kerîme" },
+  { id: 'q25', text: "Allah bir kapıyı kapatırsa rahmetiyle yenisini açar.", source: "Hikmetli Söz" },
+  { id: 'q26', text: "İyilikle kötülük bir olmaz. Sen kötülüğü en güzel olan şeyle sav.", source: "Fussilet Suresi, 34. Âyet-i Kerîme" },
+  { id: 'q27', text: "Ameller ancak niyetlere göredir.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q28', text: "Allah güzeldir, güzelliği sever.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q29', text: "De ki: Allah bize yeter, O ne güzel vekildir.", source: "Âl-i İmrân Suresi, 173. Âyet-i Kerîme" },
+  { id: 'q30', text: "O, bir şeyin olmasını istediğinde sadece 'Ol' der ve o şey oluverir.", source: "Yâsîn Suresi, 82. Âyet-i Kerîme" },
+  { id: 'q31', text: "De ki: Hiç bilenlerle bilmeyenler bir olur mu?", source: "Zümer Suresi, 9. Âyet-i Kerîme" },
+  { id: 'q32', text: "Benim namazım, ibadetlerim, hayatım ve ölümüm âlemlerin Rabbi olan Allah içindir.", source: "En'âm Suresi, 162. Âyet-i Kerîme" },
+  { id: 'q33', text: "İnsan için ancak çalıştığının karşılığı vardır.", source: "Necm Suresi, 39. Âyet-i Kerîme" },
+  { id: 'q34', text: "Allah kuluna kâfi değil midir?", source: "Zümer Suresi, 36. Âyet-i Kerîme" },
+  { id: 'q35', text: "Biz insanı en güzel biçimde yarattık.", source: "Tîn Suresi, 4. Âyet-i Kerîme" },
+  { id: 'q36', text: "Gönül Çalab'ın tahtı, Çalab gönüle baktı; İki cihan بدبختı kim gönül yıkar ise.", source: "Yunus Emre" },
+  { id: 'q37', text: "Dualarınız olmasa Rabbim size ne diye değer versin?", source: "Furkân Suresi, 77. Âyet-i Kerîme" },
+  { id: 'q38', text: "Tebessüm etmek sadakadır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q39', text: "Rabbim! İlmimi ve anlayışımı artır.", source: "Tâhâ Suresi, 114. Âyet-i Kerîme" },
+  { id: 'q40', text: "Yeryüzündekilere merhamet edin ki, göktekiler de size merhamet etsin.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q41', text: "Mümin müminin aynasıdır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q42', text: "Kim bir insanı yaşatırsa bütün insanlığı yaşatmış gibi olur.", source: "Mâide Suresi, 32. Âyet-i Kerîme" },
+  { id: 'q43', text: "Sabır, ilk darbe anındaki metanettir.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q44', text: "Her şey vaktini bekler; ne gül vaktinden önce açar, ne güneş vaktinden önce doğar.", source: "Mevlânâ Celâleddîn-i Rûmî" },
+  { id: 'q45', text: "Temizlik imanın yarısıdır.", source: "Hz. Muhammed (s.a.v.) / Hadîs-i Şerîf" },
+  { id: 'q46', text: "Dost istersen Allah yeter.", source: "Kelâm-ı Kibâr" },
+  { id: 'q47', text: "Yaratılanı hoş gör, Yaratandan ötürü.", source: "Yunus Emre" },
+  { id: 'q48', text: "Kalbinde zerre kadar iyilik olan zayi olmaz.", source: "Hikmetli Söz" },
+  { id: 'q49', text: "Kalp denizdir, dil ise kıyı. Denizde ne varsa kıyıya o vurur.", source: "Mevlânâ Celâleddîn-i Rûmî" },
+  { id: 'q50', text: "Dualar eken, huzur biçar.", source: "Hikmetli Söz" }
 ];

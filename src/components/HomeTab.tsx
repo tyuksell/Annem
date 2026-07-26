@@ -15,9 +15,10 @@ import {
   ShieldAlert,
   Award,
   Baby,
-  Plus
+  Plus,
+  RefreshCw
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface HomeTabProps {
   userProfile: UserProfile;
@@ -189,19 +190,30 @@ export const HomeTab: React.FC<HomeTabProps> = ({
           <div className="p-2.5 bg-[#f07052] text-white rounded-2xl shadow-xs shrink-0">
             <Quote className="w-5 h-5" />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 space-y-1">
             <div className="flex items-center justify-between mb-1">
               <span className="text-xs font-bold uppercase tracking-widest text-[#3d5a45]">Günün Motivasyon Sözü</span>
               <button 
                 onClick={refreshQuote}
-                className="text-xs text-[#f07052] hover:text-[#3d5a45] font-semibold underline cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white border border-[#d2c7b8] text-[#3d5a45] hover:bg-[#3d5a45] hover:text-white text-xs font-bold transition-all shadow-xs cursor-pointer active:scale-95 shrink-0"
+                title="Farklı bir motivasyon sözü göster"
               >
-                Yeni Söz
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Yeni Kelâm</span>
               </button>
             </div>
-            <p className="text-[#38423b] font-serif italic text-base sm:text-lg leading-relaxed">
-              "{quote}"
-            </p>
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={quote}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+                className="text-[#38423b] font-serif italic text-base sm:text-lg leading-relaxed"
+              >
+                "{quote}"
+              </motion.p>
+            </AnimatePresence>
           </div>
         </div>
       </motion.div>

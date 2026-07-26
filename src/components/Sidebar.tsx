@@ -49,6 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { id: 'home' as TabType, label: 'Ana Sayfa', icon: Home, desc: 'Günlük genel bakış ve özet' },
         { id: 'plan' as TabType, label: 'Günlük Plan', icon: Clock, desc: 'Saatlik yaşam akışı ve rutinler' },
+        { id: 'husu' as TabType, label: 'Huşu & Zikir', icon: Heart, desc: 'Günlük dualar ve zikirmatik takibi' },
         { id: 'water' as TabType, label: 'Su Takibi', icon: Droplet, desc: 'Günlük sıvı tüketim hedefi' },
         { id: 'weight' as TabType, label: 'Kilo & Ölçü', icon: Scale, desc: 'Kilo grafiği ve beden ölçüleri' },
         { id: 'exercise' as TabType, label: 'Egzersiz', icon: Activity, desc: 'Lohusa dostu hareket planı' },

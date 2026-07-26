@@ -8,6 +8,8 @@ interface AuthModalProps {
   onClose: () => void;
   userProfile: UserProfile;
   loginUser: (email: string, name?: string) => void;
+  onRegister: () => void;
+  initialMode?: 'login' | 'forgot';
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
@@ -15,12 +17,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   userProfile,
   loginUser,
+  onRegister,
+  initialMode = 'login',
 }) => {
-  const [mode, setMode] = useState<'login' | 'register' | 'forgot'>('login');
+  const [mode, setMode] = useState<'login' | 'forgot'>(initialMode);
   const [email, setEmail] = useState(userProfile.email || '');
   const [password, setPassword] = useState('');
   const [name, setName] = useState(userProfile.name || '');
   const [message, setMessage] = useState('');
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setMode(initialMode);
+      setEmail(userProfile.email || '');
+      setPassword('');
+      setName(userProfile.name || '');
+      setMessage('');
+    }
+  }, [isOpen, initialMode, userProfile.email, userProfile.name]);
 
   if (!isOpen) return null;
 
@@ -65,7 +79,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </div>
           <h2 className="text-xl font-serif font-bold text-[#5a5a40]">
             {mode === 'login' && 'Annem\'e Giriş Yap'}
-            {mode === 'register' && 'Yeni Hesap Oluştur'}
             {mode === 'forgot' && 'Şifremi Unuttum'}
           </h2>
           <p className="text-xs text-[#4a4a40]/70">
@@ -80,22 +93,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === 'register' && (
-            <div>
-              <label className="text-xs font-bold text-[#5a5a40] block mb-1">Adın</label>
-              <div className="relative">
-                <User className="w-4 h-4 text-[#4a4a40]/50 absolute left-3.5 top-3" />
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Örn: Ayşe"
-                  className="w-full pl-10 pr-4 py-2 bg-[#fcfaf7] border border-[#e5e0d5] text-[#5a5a40] rounded-xl text-xs font-semibold focus:outline-hidden focus:border-[#b56b45]"
-                  required
-                />
-              </div>
-            </div>
-          )}
 
           <div>
             <label className="text-xs font-bold text-[#5a5a40] block mb-1">E-posta Adresin</label>
@@ -134,7 +131,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="w-full py-3 bg-[#b56b45] hover:bg-[#a05a37] text-white font-bold text-xs rounded-2xl transition-colors shadow-xs"
           >
             {mode === 'login' && 'Güvenli Giriş Yap'}
-            {mode === 'register' && 'Hesabımı Oluştur'}
             {mode === 'forgot' && 'Sıfırlama Bağlantısı Gönder'}
           </button>
         </form>
@@ -145,7 +141,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               <button onClick={() => setMode('forgot')} className="hover:text-[#b56b45]">
                 Şifremi unuttum?
               </button>
-              <button onClick={() => setMode('register')} className="font-bold text-[#b56b45]">
+              <button onClick={onRegister} className="font-bold text-[#b56b45]">
                 Hesap oluştur
               </button>
             </>

@@ -15,6 +15,7 @@ import {
   PieChart, 
   Sparkles,
   Bell,
+  Heart,
   MoreVertical
 } from 'lucide-react';
 
@@ -28,6 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setActiveTab, onOpen
   const mainNavItems = [
     { id: 'home' as TabType, label: 'Ana Sayfa', icon: Home },
     { id: 'plan' as TabType, label: 'Günlük Plan', icon: Clock },
+    { id: 'husu' as TabType, label: 'Huşu & Zikir', icon: Heart },
     { id: 'water' as TabType, label: 'Su Takibi', icon: Droplet },
     { id: 'weight' as TabType, label: 'Kilo & Ölçü', icon: Scale },
     { id: 'exercise' as TabType, label: 'Egzersiz', icon: Activity },
@@ -43,6 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setActiveTab, onOpen
   const mobileNavItems = [
     { id: 'home' as TabType | 'menu', label: 'Ana Sayfa', icon: Home },
     { id: 'plan' as TabType | 'menu', label: 'Plan', icon: Clock },
+    { id: 'husu' as TabType | 'menu', label: 'Huşu', icon: Heart },
     { id: 'water' as TabType | 'menu', label: 'Su', icon: Droplet },
     { id: 'weight' as TabType | 'menu', label: 'Kilo', icon: Scale },
     { id: 'ai' as TabType | 'menu', label: 'AI Koç', icon: Sparkles },

@@ -5,11 +5,15 @@ import { User, Scale, Heart, ShieldAlert, Baby, Save, Check } from 'lucide-react
 interface ProfileTabProps {
   userProfile: UserProfile;
   onUpdateProfile: (updated: Partial<UserProfile>) => void;
+  onLogout: () => void;
+  onOpenAuthModal: (mode: 'login' | 'register') => void;
 }
 
 export const ProfileTab: React.FC<ProfileTabProps> = ({
   userProfile,
   onUpdateProfile,
+  onLogout,
+  onOpenAuthModal,
 }) => {
   const [name, setName] = useState(userProfile.name || '');
   const [email, setEmail] = useState(userProfile.email || '');
@@ -47,7 +51,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
   return (
     <div className="space-y-6 pb-12 max-w-3xl mx-auto">
       {/* Header */}
-      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#e5e0d5] shadow-xs flex items-center justify-between">
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#e5e0d5] shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center space-x-2 text-[#f07052] font-bold text-xs uppercase tracking-wider mb-1">
             <User className="w-4 h-4" />
@@ -58,17 +62,52 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
             Metabolizma ve kalori hesaplamaları senin bu girdiğin bilgilere göre yapılır.
           </p>
         </div>
+        {userProfile.isLoggedIn ? (
+          <button
+            type="button"
+            onClick={onLogout}
+            className="px-5 py-3 bg-[#f07052] text-white font-bold text-xs rounded-2xl hover:bg-[#d95a3d] transition-colors"
+          >
+            Çıkış Yap
+          </button>
+        ) : null}
       </div>
 
-      {/* Main Profile Form */}
-      <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-3xl border border-[#e5e0d5] shadow-xs space-y-6">
-        
-        {savedSuccess && (
-          <div className="p-4 bg-[#eaf4eb] border border-[#cbe4cf] text-[#2e4033] rounded-2xl text-xs font-bold flex items-center space-x-2">
-            <Check className="w-4 h-4 text-[#3d5a45]" />
-            <span>Profil bilgilerin başarıyla güncellendi! 🎉</span>
+      {!userProfile.isLoggedIn ? (
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-[#e5e0d5] shadow-xs space-y-4 text-center">
+          <div className="text-[#2e4033] text-lg font-semibold">Oturumunuz kapalı</div>
+          <p className="text-[#526356] text-sm">
+            Hesabınıza giriş yapabilir veya yeni bir kullanıcı oluşturarak devam edebilirsiniz.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => onOpenAuthModal('login')}
+              className="w-full px-5 py-3 bg-[#b56b45] text-white font-bold text-xs rounded-2xl hover:bg-[#a05a37] transition-colors"
+            >
+              Giriş Yap
+            </button>
+            <button
+              type="button"
+              onClick={() => onOpenAuthModal('register')}
+              className="w-full px-5 py-3 bg-[#f4f1ea] text-[#5a5a40] font-bold text-xs rounded-2xl hover:bg-[#e9e5dd] transition-colors"
+            >
+              Hesap Oluştur
+            </button>
           </div>
-        )}
+        </div>
+      ) : null}
+
+      {/* Main Profile Form */}
+      {userProfile.isLoggedIn && (
+        <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-3xl border border-[#e5e0d5] shadow-xs space-y-6">
+          
+          {savedSuccess && (
+            <div className="p-4 bg-[#eaf4eb] border border-[#cbe4cf] text-[#2e4033] rounded-2xl text-xs font-bold flex items-center space-x-2">
+              <Check className="w-4 h-4 text-[#3d5a45]" />
+              <span>Profil bilgilerin başarıyla güncellendi! 🎉</span>
+            </div>
+          )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -157,12 +196,12 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
           <h3 className="font-serif font-bold text-[#2e4033] text-base">Özel Durumlar & Hassasiyetler</h3>
 
           {/* Nursing Switch */}
-          <div className="flex items-center justify-between p-4 bg-[#fff2ee] rounded-2xl border border-[#ffdbd2]">
-            <div className="flex items-center space-x-3">
-              <div className="p-2.5 bg-[#f07052] text-white rounded-xl shadow-xs">
+          <div className="flex items-center justify-between p-4 bg-[#fff2ee] rounded-2xl border border-[#ffdbd2] min-w-0">
+            <div className="flex items-center space-x-3 min-w-0">
+              <div className="p-2.5 bg-[#f07052] text-white rounded-xl shadow-xs flex-shrink-0">
                 <Baby className="w-5 h-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-serif font-bold text-base text-[#2e4033]">Emziriyor muyum?</h4>
                 <p className="text-xs text-[#526356]">Menü ve su hedeflerine süt artırıcı destekler eklenir.</p>
               </div>
@@ -183,12 +222,12 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
           </div>
 
           {/* Knee Issue Switch */}
-          <div className="flex items-center justify-between p-4 bg-[#eaf4eb] rounded-2xl border border-[#cbe4cf]">
-            <div className="flex items-center space-x-3">
-              <div className="p-2.5 bg-[#3d5a45] text-white rounded-xl shadow-xs">
+          <div className="flex items-center justify-between p-4 bg-[#eaf4eb] rounded-2xl border border-[#cbe4cf] min-w-0">
+            <div className="flex items-center space-x-3 min-w-0">
+              <div className="p-2.5 bg-[#3d5a45] text-white rounded-xl shadow-xs flex-shrink-0">
                 <ShieldAlert className="w-5 h-5" />
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="font-serif font-bold text-base text-[#2e4033]">Diz Problemim var mı?</h4>
                 <p className="text-xs text-[#526356]">Diz kapaklarını koruyan eklemsiz egzersizler filtreler.</p>
               </div>
@@ -219,6 +258,7 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({
           </button>
         </div>
       </form>
+      )}
     </div>
   );
 };

@@ -199,8 +199,8 @@ export const HusuTab: React.FC<HusuTabProps> = ({
 
         {/* Quick Stats Summary Strip */}
         <div className="mt-6 pt-6 border-t border-white/15 grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-2.5 sm:p-3.5 border border-white/10 flex items-start gap-3 min-w-0">
-            <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-200">
+          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-2.5 sm:p-3.5 border border-white/10 flex items-start gap-2 min-w-0">
+            <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-200 mt-1">
               <CheckCircle2 className="w-5 h-5 text-emerald-300" />
             </div>
             <div className="min-w-0 text-left">
@@ -209,8 +209,8 @@ export const HusuTab: React.FC<HusuTabProps> = ({
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-2.5 sm:p-3.5 border border-white/10 flex items-start gap-3 min-w-0">
-            <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-200">
+          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-2.5 sm:p-3.5 border border-white/10 flex items-start gap-2 min-w-0">
+            <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-200 mt-1">
               <Feather className="w-5 h-5 text-amber-300" />
             </div>
             <div className="min-w-0 text-left">

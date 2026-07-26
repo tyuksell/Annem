@@ -9,6 +9,7 @@ export interface UserProfile {
   targetWeight: number; // kg
   dailyCalorieTarget: number;
   activityLevel: 'az' | 'orta' | 'yuksek';
+  password?: string;
   isNursing: boolean; // Emziren anne mi?
   hasKneeIssue: boolean; // Diz problemi var mı?
   startDate: string; // YYYY-MM-DD

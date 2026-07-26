@@ -17,6 +17,7 @@ import {
 export const initialProfile: UserProfile = {
   name: "",
   email: "",
+  password: "",
   isLoggedIn: false,
   isProfileCreated: false,
   height: 165,

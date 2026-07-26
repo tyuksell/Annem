@@ -447,13 +447,15 @@ export default function App() {
     setUserProfile((prev) => ({ ...prev, ...updated }));
   };
 
-  const loginUser = (email: string, name?: string) => {
+  const loginUser = (email: string, password: string) => {
+    if (!userProfile.isProfileCreated) return false;
+    if (userProfile.email !== email || userProfile.password !== password) return false;
+
     setUserProfile((prev) => ({
       ...prev,
-      email,
-      name: name || prev.name,
       isLoggedIn: true,
     }));
+    return true;
   };
 
   const logoutUser = () => {

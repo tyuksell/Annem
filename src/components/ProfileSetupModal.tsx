@@ -37,13 +37,43 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
   );
   const [isNursing, setIsNursing] = useState(existingProfile?.isNursing || false);
   const [hasKneeIssue, setHasKneeIssue] = useState(existingProfile?.hasKneeIssue || false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [formError, setFormError] = useState('');
   const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (isOpen) {
       setStep(1);
+      setName(isCreated ? existingProfile?.name || '' : '');
+      setEmail(isCreated ? existingProfile?.email || '' : '');
+      setHeight(
+        isCreated && existingProfile?.height && existingProfile.height > 0 ? existingProfile.height : ''
+      );
+      setStartWeight(
+        isCreated && existingProfile?.startWeight && existingProfile.startWeight > 0 ? existingProfile.startWeight : ''
+      );
+      setCurrentWeight(
+        isCreated && existingProfile?.currentWeight && existingProfile.currentWeight > 0 ? existingProfile.currentWeight : ''
+      );
+      setTargetWeight(
+        isCreated && existingProfile?.targetWeight && existingProfile.targetWeight > 0 ? existingProfile.targetWeight : ''
+      );
+      setTargetDays(
+        isCreated && existingProfile?.targetDays && existingProfile.targetDays > 0 ? existingProfile.targetDays : ''
+      );
+      setIsNursing(existingProfile?.isNursing || false);
+      setHasKneeIssue(existingProfile?.hasKneeIssue || false);
+      setDailyCalorieTarget(
+        isCreated && existingProfile?.dailyCalorieTarget && existingProfile.dailyCalorieTarget > 0
+          ? existingProfile.dailyCalorieTarget
+          : ''
+      );
+      setPassword('');
+      setConfirmPassword('');
+      setFormError('');
     }
-  }, [isOpen]);
+  }, [isOpen, existingProfile, isCreated]);
 
   // Auto-calculated calorie recommendation
   const [dailyCalorieTarget, setDailyCalorieTarget] = useState<number | string>(
@@ -59,6 +89,22 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
     if (!name.trim()) return;
 
     if (step === 1) {
+      if (!isCreated) {
+        if (!password.trim()) {
+          setFormError('Lütfen bir şifre belirleyin.');
+          return;
+        }
+        if (password.trim().length < 6) {
+          setFormError('Şifre en az 6 karakter olmalıdır.');
+          return;
+        }
+        if (password !== confirmPassword) {
+          setFormError('Şifreler eşleşmiyor.');
+          return;
+        }
+      }
+
+      setFormError('');
       setStep(2);
       return;
     }
@@ -78,6 +124,7 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
     const newProfile: UserProfile = {
       name: name.trim(),
       email: email.trim() || `${name.toLowerCase().replace(/\s+/g, '')}@annem.com`,
+      password: isCreated ? existingProfile?.password || '' : password.trim(),
       isLoggedIn: true,
       isProfileCreated: true,
       height: numHeight,
@@ -171,6 +218,36 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
                     className="w-full px-4 py-2.5 bg-[#fcfaf7] border border-[#e5e0d5] text-[#5a5a40] rounded-2xl text-xs font-semibold focus:outline-hidden focus:border-[#b56b45]"
                   />
                 </div>
+                {!isCreated ? (
+                  <>
+                    <div>
+                      <label className="text-xs font-bold text-[#5a5a40] block mb-1">
+                        Şifre <span className="text-[#b56b45]">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="En az 6 karakter"
+                        className="w-full px-4 py-2.5 bg-[#fcfaf7] border border-[#e5e0d5] text-[#5a5a40] rounded-2xl text-xs font-semibold focus:outline-hidden focus:border-[#b56b45]"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-bold text-[#5a5a40] block mb-1">
+                        Şifre Tekrar <span className="text-[#b56b45]">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        placeholder="Şifreyi tekrar gir"
+                        className="w-full px-4 py-2.5 bg-[#fcfaf7] border border-[#e5e0d5] text-[#5a5a40] rounded-2xl text-xs font-semibold focus:outline-hidden focus:border-[#b56b45]"
+                        required
+                      />
+                    </div>
+                  </>
+                ) : null}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -203,6 +280,9 @@ export const ProfileSetupModal: React.FC<ProfileSetupModalProps> = ({
                   />
                 </div>
               </div>
+              {formError ? (
+                <div className="text-xs text-[#b56b45] font-semibold">{formError}</div>
+              ) : null}
             </div>
           ) : step === 2 ? (
             <div className="space-y-4">

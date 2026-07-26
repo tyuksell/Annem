@@ -7,7 +7,7 @@ interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
   userProfile: UserProfile;
-  loginUser: (email: string, name?: string) => void;
+  loginUser: (email: string, password: string) => boolean;
   onRegister: () => void;
   initialMode?: 'login' | 'forgot';
 }
@@ -23,7 +23,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [mode, setMode] = useState<'login' | 'forgot'>(initialMode);
   const [email, setEmail] = useState(userProfile.email || '');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(userProfile.name || '');
   const [message, setMessage] = useState('');
 
   React.useEffect(() => {
@@ -31,10 +30,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setMode(initialMode);
       setEmail(userProfile.email || '');
       setPassword('');
-      setName(userProfile.name || '');
       setMessage('');
     }
-  }, [isOpen, initialMode, userProfile.email, userProfile.name]);
+  }, [isOpen, initialMode, userProfile.email]);
 
   if (!isOpen) return null;
 
@@ -46,7 +44,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       return;
     }
 
-    loginUser(email, name);
+    const success = loginUser(email, password);
+    if (!success) {
+      setMessage('E-posta veya şifre hatalı. Lütfen tekrar deneyin.');
+      return;
+    }
+
     setMessage('Giriş başarılı! Hoş geldin 🌸');
     setTimeout(() => {
       setMessage('');

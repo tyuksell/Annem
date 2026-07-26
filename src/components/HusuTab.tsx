@@ -199,28 +199,28 @@ export const HusuTab: React.FC<HusuTabProps> = ({
 
         {/* Quick Stats Summary Strip */}
         <div className="mt-6 pt-6 border-t border-white/15 grid grid-cols-2 sm:grid-cols-3 gap-4">
-          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-center gap-3 min-w-0">
+          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-start gap-3 min-w-0">
             <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-200">
               <CheckCircle2 className="w-5 h-5 text-emerald-300" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 text-left">
               <p className="text-[10px] sm:text-[11px] text-emerald-100/80 uppercase tracking-wider font-medium whitespace-nowrap">Tamamlanan</p>
               <p className="text-lg font-bold text-white font-serif">{completedCount} / {dhikrList.length} Zikir</p>
             </div>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-center gap-3 min-w-0">
+          <div className="bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-start gap-3 min-w-0">
             <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-200">
               <Feather className="w-5 h-5 text-amber-300" />
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 text-left">
               <p className="text-[10px] sm:text-[11px] text-emerald-100/80 uppercase tracking-wider font-medium whitespace-nowrap">Bugün Çekilen</p>
               <p className="text-lg font-bold text-white font-serif">{totalDhikrSum} Adet</p>
             </div>
           </div>
 
-          <div className="col-span-2 sm:col-span-1 bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-center justify-between gap-3 min-w-0">
-            <div className="min-w-0">
+          <div className="col-span-2 sm:col-span-1 bg-white/10 backdrop-blur-xs rounded-2xl p-3.5 border border-white/10 flex items-start justify-between gap-3 min-w-0">
+            <div className="min-w-0 text-left">
               <p className="text-[10px] sm:text-[11px] text-emerald-100/80 uppercase tracking-wider font-medium whitespace-nowrap">Genel İlerleme</p>
               <p className="text-lg font-bold text-white font-serif">%{overallPercentage}</p>
             </div>

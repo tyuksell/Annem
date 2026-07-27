@@ -143,8 +143,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className="bg-white p-3 rounded-2xl border border-[#e5e0d5] flex items-center justify-between cursor-pointer hover:border-[#f07052] transition-colors shadow-2xs"
               >
                 <div className="flex items-center space-x-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#3d5a45] text-white flex items-center justify-center font-bold text-sm shadow-2xs">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3d5a45] via-[#4a6b54] to-[#f07052] text-white flex items-center justify-center font-extrabold text-sm shadow-xs border border-white/50 relative shrink-0">
                     {userProfile.isLoggedIn && userProfile.name ? userProfile.name.charAt(0).toUpperCase() : <User className="w-5 h-5 text-white" />}
+                    {userProfile.isLoggedIn && <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#40c057] border-2 border-white rounded-full"></span>}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-[#2e4033]">

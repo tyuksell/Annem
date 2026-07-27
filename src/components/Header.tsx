@@ -87,14 +87,16 @@ export const Header: React.FC<HeaderProps> = ({
                   setActiveTab('profile');
                 }
               }}
-              className={`flex items-center space-x-2 sm:space-x-3 px-2.5 py-1.5 sm:px-3 sm:py-1.5 bg-white hover:bg-[#f2f7f3] rounded-2xl border border-[#e5e0d5] hover:border-[#3d5a45]/30 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer active:scale-95 shrink-0 ${
-                currentTab === 'profile' ? 'border-[#3d5a45] bg-[#f2f7f3] ring-2 ring-[#3d5a45]/10' : ''
+              className={`flex items-center space-x-2 p-1 sm:py-1.5 sm:px-3 bg-[#f2f7f3] hover:bg-[#e4efe6] rounded-2xl border border-[#d8e5da] transition-all duration-200 cursor-pointer active:scale-95 shrink-0 shadow-2xs ${
+                currentTab === 'profile' ? 'border-[#3d5a45] bg-[#e4efe6] ring-2 ring-[#3d5a45]/15' : ''
               }`}
+              title={userProfile.name || 'Profilim'}
             >
-              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-[#3d5a45] to-[#4a6b54] text-white flex items-center justify-center font-bold text-xs shadow-xs shrink-0">
+              <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-gradient-to-br from-[#3d5a45] via-[#4a6b54] to-[#f07052] text-white flex items-center justify-center font-extrabold text-xs sm:text-sm shadow-xs shrink-0 border border-white/50 relative">
                 {userProfile.name ? userProfile.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#40c057] border-2 border-white rounded-full"></span>
               </div>
-              <span className="text-xs font-bold text-[#2e4033] hidden sm:inline tracking-tight whitespace-nowrap">
+              <span className="text-xs sm:text-sm font-bold text-[#2e4033] hidden sm:inline pr-1 whitespace-nowrap tracking-tight">
                 {userProfile.name || 'Profilim'}
               </span>
             </button>

@@ -112,7 +112,7 @@ export const EvIsleriTab: React.FC = () => {
   const completedCount = CHORES.filter((c) => checked[c.id]).length;
 
   return (
-    <div className="space-y-6 pb-20 lg:pb-12">
+    <div className="space-y-6 pb-2 lg:pb-0">
       {/* Top Section: Header & Image (Responsive Layout) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         
@@ -266,7 +266,7 @@ export const EvIsleriTab: React.FC = () => {
       </div>
 
       {/* Page Navigation */}
-      <div className="flex items-center justify-center space-x-4 pt-6 pb-2">
+      <div className="flex items-center justify-center space-x-4 pt-4 pb-0">
         {/* Previous button - desktop only */}
         <button
           onClick={() => goToPage(currentPage - 1)}

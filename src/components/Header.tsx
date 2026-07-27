@@ -50,17 +50,17 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Action Controls - Hierarchical Order: AI Koç -> Notification -> Main CTA */}
         <div className="flex items-center space-x-2 sm:space-x-3.5">
           
-          {/* 1. AI Shortcut Ghost Pill */}
+          {/* 1. AI Shortcut Pill */}
           <button
             onClick={() => setActiveTab('ai')}
-            className={`flex items-center space-x-1.5 px-3.5 py-2 rounded-2xl text-xs font-bold transition-all duration-200 cursor-pointer active:scale-95 ${
+            className={`flex items-center space-x-2 px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer active:scale-95 ${
               currentTab === 'ai'
                 ? 'bg-[#3d5a45] text-white shadow-md shadow-[#3d5a45]/20'
-                : 'text-[#f07052] hover:bg-[#fff2ee]/80 hover:shadow-xs'
+                : 'bg-[#fff2ee] hover:bg-[#ffe0d8] text-[#f07052] border border-[#ffdbd2]/80 shadow-2xs'
             }`}
           >
             <Sparkles className={`w-4 h-4 ${currentTab === 'ai' ? 'text-white' : 'text-[#f07052]'} animate-pulse`} />
-            <span className="hidden sm:inline">AI Koç</span>
+            <span>AI Koç</span>
           </button>
 
           {/* 2. Reminders / Notification Icon Button */}

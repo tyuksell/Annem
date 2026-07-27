@@ -93,7 +93,10 @@ export const EvIsleriTab: React.FC = () => {
   };
 
   const goToPage = (page: number) => {
-    if (page >= 0 && page < PAGES.length) setCurrentPage(page);
+    if (page >= 0 && page < PAGES.length) {
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {

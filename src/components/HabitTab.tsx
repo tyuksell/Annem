@@ -72,7 +72,8 @@ export const HabitTab: React.FC<HabitTabProps> = ({
             className="bg-[#f07052] hover:bg-[#d95a3d] text-white font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-xs flex items-center space-x-1 shrink-0 cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>Alışkanlık Ekle</span>
+            <span className="hidden sm:inline">Alışkanlık Ekle</span>
+            <span className="sm:hidden">Ekle</span>
           </button>
         </form>
       </div>

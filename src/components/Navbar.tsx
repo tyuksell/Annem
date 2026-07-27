@@ -36,10 +36,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setActiveTab, onOpen
     { id: 'weight' as TabType, label: 'Kilo & Ölçü', icon: Scale },
     { id: 'exercise' as TabType, label: 'Egzersiz', icon: Activity },
     { id: 'habits' as TabType, label: 'Alışkanlık', icon: CheckSquare },
-    { id: 'evisleri' as TabType, label: 'Ev İşleri', icon: Brush },
     { id: 'nutrition' as TabType, label: 'Beslenme', icon: Utensils },
     { id: 'recipes' as TabType, label: 'Tarifler', icon: BookOpen },
     { id: 'calendar' as TabType, label: 'Takvim', icon: CalendarIcon },
+    { id: 'evisleri' as TabType, label: 'Ev İşleri', icon: Brush },
     { id: 'notes' as TabType, label: 'Not Defteri', icon: FileText },
     { id: 'stats' as TabType, label: 'İstatistik', icon: PieChart },
   ];

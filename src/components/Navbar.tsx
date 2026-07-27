@@ -48,7 +48,6 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setActiveTab, onOpen
     { id: 'plan' as TabType | 'menu', label: 'Plan', icon: Clock },
     { id: 'husu' as TabType | 'menu', label: 'Huşu', icon: Heart },
     { id: 'water' as TabType | 'menu', label: 'Su', icon: Droplet },
-    { id: 'weight' as TabType | 'menu', label: 'Kilo', icon: Scale },
     { id: 'ai' as TabType | 'menu', label: 'AI Koç', icon: Sparkles },
     ...(onOpenSidebar ? [{ id: 'menu' as const, label: 'Tüm Menü', icon: MoreVertical }] : []),
   ];

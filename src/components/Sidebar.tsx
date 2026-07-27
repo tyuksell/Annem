@@ -114,7 +114,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <Heart className="w-5 h-5 text-white fill-white/20" />
                 </div>
                 <div>
-                  <h2 className="font-sans font-bold text-lg text-[#2e4033] leading-none">Annem</h2>
+                  <h2 className="font-sans font-semibold text-lg text-[#3d5043] tracking-normal leading-none">Annem</h2>
                   <p className="text-xs text-[#526356] font-medium mt-0.5">Tüm Sekmeler & Menü</p>
                 </div>
               </div>

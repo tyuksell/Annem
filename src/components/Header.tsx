@@ -38,10 +38,10 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => setActiveTab('home')}
             className="flex items-center space-x-3 cursor-pointer group"
           >
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#3d5a45] via-[#4a6b54] to-[#f07052] flex items-center justify-center text-white shadow-md shadow-[#3d5a45]/15 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-[#f07052]/20 transition-all duration-300">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4a6b54] to-[#f07052] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-all duration-200">
               <Heart className="w-5 h-5 text-white fill-white/20" />
             </div>
-            <h1 className="font-sans font-extrabold text-xl sm:text-2xl text-[#2e4033] tracking-tight group-hover:text-[#f07052] transition-colors">
+            <h1 className="font-sans font-semibold text-lg sm:text-xl text-[#3d5043] tracking-normal group-hover:text-[#f07052] transition-colors">
               Annem
             </h1>
           </div>

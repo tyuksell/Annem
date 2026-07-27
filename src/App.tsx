@@ -47,6 +47,7 @@ import { RemindersTab } from './components/RemindersTab';
 import { StatsTab } from './components/StatsTab';
 import { ProfileTab } from './components/ProfileTab';
 import { AiAssistantTab } from './components/AiAssistantTab';
+import { EvIsleriTab } from './components/EvIsleriTab';
 import { AuthModal } from './components/AuthModal';
 import { ProfileSetupModal } from './components/ProfileSetupModal';
 import { RecipeModal } from './components/RecipeModal';
@@ -646,6 +647,10 @@ export default function App() {
             addHabit={addHabit}
             deleteHabit={deleteHabit}
           />
+        )}
+
+        {currentTab === 'evisleri' && (
+          <EvIsleriTab />
         )}
 
         {currentTab === 'calendar' && (

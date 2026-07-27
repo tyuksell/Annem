@@ -149,6 +149,7 @@ export type TabType =
   | 'weight'
   | 'exercise'
   | 'habits'
+  | 'evisleri'
   | 'calendar'
   | 'recipes'
   | 'notes'

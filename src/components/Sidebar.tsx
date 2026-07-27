@@ -18,7 +18,8 @@ import {
   X,
   Heart,
   ChevronRight,
-  Target
+  Target,
+  Brush
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -54,6 +55,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         { id: 'weight' as TabType, label: 'Kilo & Ölçü', icon: Scale, desc: 'Kilo grafiği ve beden ölçüleri' },
         { id: 'exercise' as TabType, label: 'Egzersiz', icon: Activity, desc: 'Lohusa dostu hareket planı' },
         { id: 'habits' as TabType, label: 'Alışkanlık', icon: CheckSquare, desc: 'Günlük alışkanlık çetelesi' },
+        { id: 'evisleri' as TabType, label: 'Ev İşleri', icon: Brush, desc: 'Günlük ev işleri ve temizlik görevleri' },
       ],
     },
     {

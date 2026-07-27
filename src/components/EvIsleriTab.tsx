@@ -112,54 +112,96 @@ export const EvIsleriTab: React.FC = () => {
   const completedCount = CHORES.filter((c) => checked[c.id]).length;
 
   return (
-    <div className="space-y-0 pb-20 lg:pb-12">
-      {/* Hero Banner */}
-      <div className="relative w-full overflow-hidden rounded-3xl shadow-md mb-6" style={{ maxHeight: 320, minHeight: 180 }}>
-        <img
-          src="/cleaning-hero.jpg"
-          alt="Ev işleri yapan kadın"
-          className="w-full object-cover object-center"
-          style={{ height: 280 }}
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none';
-          }}
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2e4033]/80 via-[#2e4033]/20 to-transparent flex flex-col justify-end p-6 sm:p-8">
-          <div className="flex items-center space-x-2 text-[#f07052] font-bold text-xs uppercase tracking-wider mb-1">
-            <Home className="w-4 h-4" />
-            <span>Ev Düzeni &amp; Hijyen</span>
+    <div className="space-y-6 pb-20 lg:pb-12">
+      {/* Top Section: Header & Image (Responsive Layout) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        {/* Left / Main Column: Title & Progress (on desktop) */}
+        <div className="lg:col-span-7 flex flex-col justify-between gap-6">
+          {/* Header Card */}
+          <div className="bg-[#3d5a45] text-white rounded-3xl p-6 sm:p-8 shadow-md flex-1 flex flex-col justify-center relative overflow-hidden">
+            {/* Ambient Background Glow */}
+            <div className="absolute right-0 top-0 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+            <div className="absolute left-1/3 bottom-0 w-48 h-20 bg-[#f07052]/10 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="relative z-10">
+              <div className="flex items-center space-x-2 text-[#ff9880] font-bold text-xs uppercase tracking-wider mb-2">
+                <Home className="w-4 h-4" />
+                <span>Ev Düzeni &amp; Hijyen</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-tight">
+                Günlük Ev İşleri
+              </h2>
+              <p className="text-white/80 text-xs sm:text-sm mt-2 max-w-xl leading-relaxed">
+                Düzenli küçük adımlar huzurlu bir yuva yaratır. Güne başlarken, gün içinde ve bitişte yapacağınız bu basit rutinlerle evinizin ferahlığını daima koruyun.
+              </p>
+            </div>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
-            Günlük Ev İşleri
-          </h2>
-          <p className="text-white/80 text-sm mt-1 max-w-xl">
-            Düzenli küçük adımlar huzurlu bir yuva yaratır.
-          </p>
+
+          {/* Progress Summary Card (desktop only layout placeholder/reordering) */}
+          <div className="hidden lg:flex bg-white rounded-3xl border border-[#e5e0d5] shadow-xs p-5 items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#3d5a45] to-[#f07052] flex items-center justify-center shadow-xs">
+                <Star className="w-5 h-5 text-white fill-white/30" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[#f07052] uppercase tracking-wider">Bugünkü İlerleme</p>
+                <p className="text-base font-bold text-[#2e4033]">
+                  {completedCount} / {CHORES.length} Görev Tamamlandı
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-end space-y-1">
+              <div className="w-28 h-2.5 rounded-full bg-[#eaf4eb] overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-[#3d5a45] to-[#f07052] transition-all duration-500"
+                  style={{ width: `${(completedCount / CHORES.length) * 100}%` }}
+                />
+              </div>
+              <p className="text-xs text-[#526356] font-bold">
+                %{Math.round((completedCount / CHORES.length) * 100)}
+              </p>
+            </div>
+          </div>
         </div>
+
+        {/* Right / Image Column (Desktop only, or styled appropriately for mobile) */}
+        <div className="lg:col-span-5 h-48 sm:h-64 lg:h-auto min-h-[220px] relative overflow-hidden rounded-3xl shadow-md border border-[#e5e0d5]/40">
+          <img
+            src="/cleaning-hero.jpg"
+            alt="Ev işleri malzemeleri"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          {/* Subtle gradient overlay to match styling */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10 pointer-events-none" />
+        </div>
+
       </div>
 
-      {/* Progress Summary */}
-      <div className="bg-white rounded-3xl border border-[#e5e0d5] shadow-xs p-5 mb-6 flex items-center justify-between">
+      {/* Progress Summary (Mobile only) */}
+      <div className="lg:hidden bg-white rounded-3xl border border-[#e5e0d5] shadow-xs p-5 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#3d5a45] to-[#f07052] flex items-center justify-center shadow-xs">
-            <Star className="w-5 h-5 text-white fill-white/30" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#3d5a45] to-[#f07052] flex items-center justify-center shadow-xs">
+            <Star className="w-4 h-4 text-white fill-white/30" />
           </div>
           <div>
-            <p className="text-xs font-bold text-[#f07052] uppercase tracking-wider">Bugünkü İlerleme</p>
-            <p className="text-base font-bold text-[#2e4033]">
+            <p className="text-[10px] font-bold text-[#f07052] uppercase tracking-wider">Bugünkü İlerleme</p>
+            <p className="text-sm font-bold text-[#2e4033]">
               {completedCount} / {CHORES.length} Görev Tamamlandı
             </p>
           </div>
         </div>
         <div className="flex flex-col items-end space-y-1">
-          <div className="w-24 sm:w-32 h-2.5 rounded-full bg-[#eaf4eb] overflow-hidden">
+          <div className="w-24 h-2 rounded-full bg-[#eaf4eb] overflow-hidden">
             <div
               className="h-full rounded-full bg-gradient-to-r from-[#3d5a45] to-[#f07052] transition-all duration-500"
               style={{ width: `${(completedCount / CHORES.length) * 100}%` }}
             />
           </div>
-          <p className="text-xs text-[#526356] font-medium">
+          <p className="text-xs text-[#526356] font-bold">
             %{Math.round((completedCount / CHORES.length) * 100)}
           </p>
         </div>

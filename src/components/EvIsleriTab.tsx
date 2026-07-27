@@ -87,6 +87,7 @@ export const EvIsleriTab: React.FC = () => {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+  const taskListRef = useRef<HTMLDivElement>(null);
 
   const toggleCheck = (id: string) => {
     setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -95,7 +96,7 @@ export const EvIsleriTab: React.FC = () => {
   const goToPage = (page: number) => {
     if (page >= 0 && page < PAGES.length) {
       setCurrentPage(page);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      taskListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -212,7 +213,8 @@ export const EvIsleriTab: React.FC = () => {
 
       {/* Task Pages - Swipeable on mobile */}
       <div
-        className="touch-pan-y"
+        ref={taskListRef}
+        className="touch-pan-y scroll-mt-20 sm:scroll-mt-24"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >

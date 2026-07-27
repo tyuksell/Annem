@@ -87,16 +87,16 @@ export const Header: React.FC<HeaderProps> = ({
                   setActiveTab('profile');
                 }
               }}
-              className={`flex items-center space-x-2 p-1 sm:py-1.5 sm:px-3 bg-[#f2f7f3] hover:bg-[#e4efe6] rounded-2xl border border-[#d8e5da] transition-all duration-200 cursor-pointer active:scale-95 shrink-0 shadow-2xs ${
-                currentTab === 'profile' ? 'border-[#3d5a45] bg-[#e4efe6] ring-2 ring-[#3d5a45]/15' : ''
+              className={`flex items-center space-x-2.5 transition-all duration-200 cursor-pointer active:scale-95 shrink-0 rounded-2xl ${
+                currentTab === 'profile' ? 'ring-2 ring-[#3d5a45]/30 rounded-2xl' : ''
               }`}
               title={userProfile.name || 'Profilim'}
             >
-              <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-xl bg-gradient-to-br from-[#3d5a45] via-[#4a6b54] to-[#f07052] text-white flex items-center justify-center font-extrabold text-xs sm:text-sm shadow-xs shrink-0 border border-white/50 relative">
-                {userProfile.name ? userProfile.name.charAt(0).toUpperCase() : <User className="w-4 h-4 text-white" />}
-                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#40c057] border-2 border-white rounded-full"></span>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-[#3d5a45] via-[#4a6b54] to-[#f07052] text-white flex items-center justify-center font-extrabold text-sm sm:text-base shadow-xs hover:shadow-md transition-all border border-white/40 relative shrink-0">
+                {userProfile.name ? userProfile.name.charAt(0).toUpperCase() : <User className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-white" />}
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#40c057] border-2 border-white rounded-full"></span>
               </div>
-              <span className="text-xs sm:text-sm font-bold text-[#2e4033] hidden sm:inline pr-1 whitespace-nowrap tracking-tight">
+              <span className="text-xs sm:text-sm font-bold text-[#2e4033] hidden sm:inline tracking-tight whitespace-nowrap">
                 {userProfile.name || 'Profilim'}
               </span>
             </button>

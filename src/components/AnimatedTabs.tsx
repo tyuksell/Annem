@@ -94,7 +94,7 @@ export default function AnimatedTabs({
   );
 
   const baseContainerStyles = cn(
-    "relative inline-flex w-full flex-wrap items-center justify-center gap-1",
+    "relative inline-flex w-full flex-wrap items-center justify-center gap-1.5",
     variant === "underline" && "border-b border-slate-300",
     variant === "pill" && "rounded-full bg-slate-200 p-1",
     variant === "segment" && "rounded-full bg-transparent p-1",
@@ -103,7 +103,7 @@ export default function AnimatedTabs({
 
   const getTabStyles = (isActive: boolean) =>
     cn(
-      "relative z-10 flex items-center justify-center gap-2 px-3 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
+      "relative z-10 flex items-center justify-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium transition-colors whitespace-nowrap",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2",
       variant === "underline" && [
         "rounded-t-md",

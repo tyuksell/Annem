@@ -30,7 +30,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-[#fcfaf7]/85 backdrop-blur-xl border-b border-[#e8e3d8]/80 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.04)] transition-all">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <div className="max-w-7xl lg:max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
         
         {/* Brand Logo & Name */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">

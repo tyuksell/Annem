@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { type ReactNode, type KeyboardEvent, useCallback, useId, useState } from "react";
 
-interface AnimatedTabsProps<T extends string> {
+interface AnimatedTabsProps<T extends string = string> {
   activeTab?: T;
   className?: string;
   defaultTab?: T;
@@ -31,7 +31,7 @@ function cn(...classes: ClassValue[]) {
     .join(" ");
 }
 
-export default function AnimatedTabs({
+export default function AnimatedTabs<T extends string = string>({
   tabs,
   activeTab: controlledActiveTab,
   defaultTab,
@@ -39,20 +39,20 @@ export default function AnimatedTabs({
   variant = "underline",
   layoutId: customLayoutId,
   className,
-}: AnimatedTabsProps) {
+}: AnimatedTabsProps<T>) {
   const shouldReduceMotion = useReducedMotion();
   const generatedId = useId();
   const layoutId = customLayoutId ?? `animated-tabs-${generatedId}`;
 
-  const [internalActiveTab, setInternalActiveTab] = useState(
-    defaultTab ?? tabs[0]?.id ?? ""
+  const [internalActiveTab, setInternalActiveTab] = useState<T>(
+    defaultTab ?? tabs[0]?.id ?? ("" as T)
   );
 
   const isControlled = controlledActiveTab !== undefined;
   const activeTab = isControlled ? controlledActiveTab : internalActiveTab;
 
   const handleTabChange = useCallback(
-    (tabId: string) => {
+    (tabId: T) => {
       if (!isControlled) {
         setInternalActiveTab(tabId);
       }

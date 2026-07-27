@@ -299,11 +299,6 @@ export const EvIsleriTab: React.FC = () => {
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
-
-      {/* Mobile swipe hint */}
-      <p className="text-center text-xs text-[#99a89b] lg:hidden pb-2">
-        ← Sayfalar arasında kaydırın →
-      </p>
     </div>
   );
 };

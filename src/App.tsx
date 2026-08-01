@@ -13,7 +13,8 @@ import {
   ReminderSetting, 
   Badge, 
   TabType,
-  DhikrItem 
+  DhikrItem,
+  LibraryBook
 } from './types';
 import { 
   initialProfile, 
@@ -48,6 +49,7 @@ import { StatsTab } from './components/StatsTab';
 import { ProfileTab } from './components/ProfileTab';
 import { AiAssistantTab } from './components/AiAssistantTab';
 import { EvIsleriTab } from './components/EvIsleriTab';
+import { LibraryTab } from './components/LibraryTab';
 import { AuthModal } from './components/AuthModal';
 import { ProfileSetupModal } from './components/ProfileSetupModal';
 import { RecipeModal } from './components/RecipeModal';
@@ -90,6 +92,7 @@ export default function App() {
   const [reminders, setReminders] = useLocalStorage<ReminderSetting[]>('annem_reminders_v10', initialReminders);
   const [badges, setBadges] = useLocalStorage<Badge[]>('annem_badges_v10', initialBadges);
   const [dhikrList, setDhikrList] = useLocalStorage<DhikrItem[]>('annem_dhikr_v10', initialDhikrList);
+  const [books, setBooks] = useLocalStorage<LibraryBook[]>('annem_library_v10', []);
 
   // Tab & Modal Navigation
   const [currentTab, setCurrentTab] = useState<TabType>('home');
@@ -524,6 +527,25 @@ export default function App() {
     setDhikrList((prev) => prev.filter((item) => item.id !== id));
   };
 
+  // Library Handlers
+  const addBook = (book: Omit<LibraryBook, 'id' | 'addedDate' | 'isCompleted'>) => {
+    const newBook: LibraryBook = {
+      ...book,
+      id: Date.now().toString(),
+      addedDate: new Date().toISOString().split('T')[0],
+      isCompleted: false,
+    };
+    setBooks((prev) => [newBook, ...prev]);
+  };
+
+  const updateBook = (id: string, updates: Partial<LibraryBook>) => {
+    setBooks((prev) => prev.map((b) => (b.id === id ? { ...b, ...updates } : b)));
+  };
+
+  const deleteBook = (id: string) => {
+    setBooks((prev) => prev.filter((b) => b.id !== id));
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col selection:bg-rose-500 selection:text-white">
       
@@ -651,6 +673,15 @@ export default function App() {
 
         {currentTab === 'evisleri' && (
           <EvIsleriTab />
+        )}
+
+        {currentTab === 'library' && (
+          <LibraryTab
+            books={books}
+            addBook={addBook}
+            updateBook={updateBook}
+            deleteBook={deleteBook}
+          />
         )}
 
         {currentTab === 'calendar' && (

@@ -12,6 +12,7 @@ import {
   Award, 
   Calendar as CalendarIcon, 
   BookOpen, 
+  Library,
   FileText, 
   PieChart, 
   Sparkles,
@@ -40,6 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setActiveTab, onOpen
     { id: 'recipes' as TabType, label: 'Tarifler', icon: BookOpen },
     { id: 'calendar' as TabType, label: 'Takvim', icon: CalendarIcon },
     { id: 'evisleri' as TabType, label: 'Ev İşleri', icon: Brush },
+    { id: 'library' as TabType, label: 'Kütüphane', icon: Library },
     { id: 'notes' as TabType, label: 'Not Defteri', icon: FileText },
     { id: 'stats' as TabType, label: 'İstatistik', icon: PieChart },
   ];

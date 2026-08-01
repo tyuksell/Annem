@@ -140,6 +140,19 @@ export interface ChatMessage {
   timestamp: string;
 }
 
+export interface LibraryBook {
+  id: string;
+  title: string;
+  author: string;
+  totalPages: number;
+  lastReadPage: number;
+  addedDate: string;
+  coverColor: string; // HSL based color seed from title
+  coverAccent: string;
+  notes?: string;
+  isCompleted: boolean;
+}
+
 export type TabType =
   | 'home'
   | 'plan'
@@ -150,6 +163,7 @@ export type TabType =
   | 'exercise'
   | 'habits'
   | 'evisleri'
+  | 'library'
   | 'calendar'
   | 'recipes'
   | 'notes'

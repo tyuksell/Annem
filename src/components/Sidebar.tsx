@@ -10,6 +10,7 @@ import {
   CheckSquare, 
   Calendar as CalendarIcon, 
   BookOpen, 
+  Library,
   FileText, 
   PieChart, 
   Sparkles,
@@ -70,6 +71,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       items: [
         { id: 'calendar' as TabType, label: 'Takvim', icon: CalendarIcon, desc: 'Aylık gelişim ve geçmiş kayıtlar' },
         { id: 'notes' as TabType, label: 'Not Defteri', icon: FileText, desc: 'Özel notlar ve yapılacaklar' },
+        { id: 'library' as TabType, label: 'Kütüphane', icon: Library, desc: 'Kitap koleksiyonunu takip et' },
         { id: 'stats' as TabType, label: 'İstatistik', icon: PieChart, desc: 'Detaylı analiz ve grafikler' },
       ],
     },

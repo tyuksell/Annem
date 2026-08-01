@@ -258,7 +258,6 @@ const BookFormModal: React.FC<{
                 {form.title || 'Kitap başlığı'}
               </p>
               <p className="text-sm opacity-75 mt-0.5">{form.author || 'Yazar adı'}</p>
-              <p className="text-xs opacity-50 mt-1">Kapak otomatik oluşturulur</p>
             </div>
           </div>
         </div>

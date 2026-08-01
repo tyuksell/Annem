@@ -372,13 +372,21 @@ const BookCard: React.FC<{
       }`}
     >
       <div className="flex gap-4 p-4">
-        {/* Cover */}
-        <div className="flex-shrink-0 relative">
+        {/* Cover – click to edit */}
+        <div
+          className="flex-shrink-0 relative group cursor-pointer"
+          onClick={onEdit}
+          title="Düzenlemek için tıkla"
+        >
           <div className="drop-shadow-lg">
             <BookCover title={book.title} author={book.author} size="md" />
           </div>
+          {/* Hover overlay */}
+          <div className="absolute inset-0 rounded-xl bg-black/0 group-hover:bg-black/35 flex items-center justify-center transition-all duration-200">
+            <Edit3 className="w-5 h-5 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 drop-shadow-md" />
+          </div>
           {book.isCompleted && (
-            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl flex items-center justify-center backdrop-blur-[1px]">
+            <div className="absolute inset-0 bg-emerald-500/20 rounded-xl flex items-center justify-center backdrop-blur-[1px] group-hover:hidden">
               <div className="bg-emerald-500 rounded-full p-1.5 shadow-md">
                 <Check className="w-4 h-4 text-white" />
               </div>
@@ -396,10 +404,6 @@ const BookCard: React.FC<{
               )}
             </div>
             <div className="flex items-center gap-0.5 flex-shrink-0">
-              <button onClick={onEdit}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-[#3d5a45] hover:bg-[#f2f7f3] transition-colors cursor-pointer">
-                <Edit3 className="w-3.5 h-3.5" />
-              </button>
               <button onClick={onDelete}
                 className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer">
                 <Trash2 className="w-3.5 h-3.5" />

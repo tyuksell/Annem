@@ -22,7 +22,7 @@ interface ExerciseTabProps {
   exercises: ExerciseRoutine[];
   userProfile: UserProfile;
   completeExercise: (id: string) => void;
-  addExercise?: (exercise: Omit<ExerciseRoutine, 'id' | 'completedDates'>) => void;
+  addExercise?: (exercise: Omit<ExerciseRoutine, 'id' | 'completedDates'>) => ExerciseRoutine;
   deleteExercise?: (id: string) => void;
 }
 
@@ -94,7 +94,7 @@ export const ExerciseTab: React.FC<ExerciseTabProps> = ({
 
     const stepList = newSteps.split('\n').map(s => s.trim()).filter(Boolean);
 
-    addExercise({
+    const newEx = addExercise({
       title: newTitle.trim(),
       durationMinutes: Number(newDuration) || 15,
       intensity: newIntensity,
@@ -102,6 +102,15 @@ export const ExerciseTab: React.FC<ExerciseTabProps> = ({
       description: newDescription.trim() || 'Kişisel egzersiz hareketiniz.',
       steps: stepList.length > 0 ? stepList : ['Egzersiz adımlarını uygulayın.'],
     });
+
+    if (newEx) {
+      setSelectedEx(newEx);
+      // If knee filter is enabled and the added exercise is not knee friendly,
+      // toggle the filter off so the user can see their added exercise.
+      if (kneeFilter && !newEx.isKneeFriendly) {
+        setKneeFilter(false);
+      }
+    }
 
     setNewTitle('');
     setNewDescription('');

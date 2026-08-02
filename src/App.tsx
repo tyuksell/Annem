@@ -180,25 +180,52 @@ export default function App() {
 
   // Ensure initial data is populated if empty & heal outdated images
   useEffect(() => {
-    if (!recipes || recipes.length < initialRecipes.length) {
+    if (!recipes || recipes.length === 0) {
       setRecipes(initialRecipes);
     } else {
-      const hasCatImage = recipes.some(r => r.image && (r.image.includes('photo-1541781774459') || r.image.includes('photo-1517849845537')));
+      // Find default recipes that are completely missing
+      const missingDefaults = initialRecipes.filter(
+        (init) => !recipes.some((existing) => existing.id === init.id)
+      );
+      
+      let updatedRecipes = recipes;
+      let hasUpdates = false;
+      
+      if (missingDefaults.length > 0) {
+        updatedRecipes = [...updatedRecipes, ...missingDefaults];
+        hasUpdates = true;
+      }
+      
+      // Heal outdated images if any
+      const hasCatImage = updatedRecipes.some(r => r.image && (r.image.includes('photo-1541781774459') || r.image.includes('photo-1517849845537')));
       if (hasCatImage) {
-        setRecipes(recipes.map(r => {
+        updatedRecipes = updatedRecipes.map(r => {
           if (r.image && (r.image.includes('photo-1541781774459') || r.image.includes('photo-1517849845537'))) {
             const match = initialRecipes.find(ir => ir.id === r.id);
             return { ...r, image: match ? match.image : 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=500&auto=format&fit=crop&q=80' };
           }
           return r;
-        }));
+        });
+        hasUpdates = true;
+      }
+      
+      if (hasUpdates) {
+        setRecipes(updatedRecipes);
       }
     }
   }, [recipes]);
 
   useEffect(() => {
-    if ((!exercises || exercises.length < initialExercises.length) && initialExercises.length > 0) {
+    if (!exercises || exercises.length === 0) {
       setExercises(initialExercises);
+    } else {
+      // Find default exercises that are completely missing
+      const missingDefaults = initialExercises.filter(
+        (init) => !exercises.some((existing) => existing.id === init.id)
+      );
+      if (missingDefaults.length > 0) {
+        setExercises((prev) => [...prev, ...missingDefaults]);
+      }
     }
   }, [exercises]);
 
@@ -427,6 +454,7 @@ export default function App() {
   const addExercise = (exercise: Omit<ExerciseRoutine, 'id' | 'completedDates'>) => {
     const newEx: ExerciseRoutine = { ...exercise, id: Date.now().toString(), completedDates: [] };
     setExercises((prev) => [newEx, ...prev]);
+    return newEx;
   };
 
   const deleteExercise = (id: string) => {

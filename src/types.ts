@@ -16,6 +16,12 @@ export interface UserProfile {
   targetDays: number; // 68 gün
 }
 
+export interface PasswordResetToken {
+  token: string;
+  email: string;
+  expiresAt: number;
+}
+
 export interface DailyRoutineItem {
   id: string;
   title: string;

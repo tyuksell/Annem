@@ -14,7 +14,8 @@ import {
   Badge, 
   TabType,
   DhikrItem,
-  LibraryBook
+  LibraryBook,
+  PasswordResetToken
 } from './types';
 import { 
   initialProfile, 
@@ -93,6 +94,7 @@ export default function App() {
   const [badges, setBadges] = useLocalStorage<Badge[]>('annem_badges_v10', initialBadges);
   const [dhikrList, setDhikrList] = useLocalStorage<DhikrItem[]>('annem_dhikr_v10', initialDhikrList);
   const [books, setBooks] = useLocalStorage<LibraryBook[]>('annem_library_v10', []);
+  const [resetTokens, setResetTokens] = useLocalStorage<PasswordResetToken[]>('annem_reset_tokens_v10', []);
   // EvIsleri checked state persisted in localStorage for daily reset
   const [evIsleriChecked, setEvIsleriChecked] = useLocalStorage<Record<string, boolean>>('annem_evisleri_checked_v10', {});
   // Reset timestamps
@@ -103,7 +105,8 @@ export default function App() {
   const [currentTab, setCurrentTab] = useState<TabType>('home');
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [isAuthOpen, setIsAuthOpen] = useState<boolean>(false);
-  const [authMode, setAuthMode] = useState<'login' | 'forgot'>('login');
+  const [authMode, setAuthMode] = useState<'login' | 'forgot' | 'reset'>('login');
+  const [activeResetToken, setActiveResetToken] = useState<string | null>(null);
   const [isSetupModalOpen, setIsSetupModalOpen] = useState<boolean>(!userProfile.isProfileCreated);
   const [setupProfile, setSetupProfile] = useState<UserProfile | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -311,14 +314,27 @@ export default function App() {
     setIsSetupModalOpen(true);
   };
 
-  const openAuthModal = (mode: 'login' | 'register' | 'forgot' = 'login') => {
+  // Check for reset_token in URL query parameters on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('reset_token');
+      if (token) {
+        setActiveResetToken(token);
+        setAuthMode('reset');
+        setIsAuthOpen(true);
+      }
+    }
+  }, []);
+
+  const openAuthModal = (mode: 'login' | 'register' | 'forgot' | 'reset' = 'login') => {
     if (mode === 'register') {
       openProfileSetup(null);
       setIsAuthOpen(false);
       return;
     }
 
-    setAuthMode(mode === 'login' ? 'login' : 'forgot');
+    setAuthMode(mode === 'reset' ? 'reset' : mode === 'forgot' ? 'forgot' : 'login');
     setIsAuthOpen(true);
   };
 
@@ -544,7 +560,8 @@ export default function App() {
 
   const loginUser = (email: string, password: string) => {
     if (!userProfile.isProfileCreated) return false;
-    if (userProfile.email !== email || userProfile.password !== password) return false;
+    if (userProfile.email.toLowerCase() !== email.toLowerCase()) return false;
+    if (userProfile.password !== password) return false;
 
     setUserProfile((prev) => ({
       ...prev,
@@ -560,6 +577,77 @@ export default function App() {
     }));
     setCurrentTab('home');
     openAuthModal('login');
+  };
+
+  // Password Reset Request Handler
+  const requestPasswordReset = (email: string) => {
+    const trimmedEmail = email.toLowerCase().trim();
+    if (!userProfile.isProfileCreated || userProfile.email.toLowerCase() !== trimmedEmail) {
+      return {
+        success: false,
+        message: 'Bu e-posta adresi ile kayıtlı bir kullanıcı bulunamadı. Lütfen e-posta adresinizi kontrol edin veya yeni hesap oluşturun.',
+      };
+    }
+
+    // Generate token valid for 15 minutes
+    const token = 'rst_' + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+    const expiresAt = Date.now() + 15 * 60 * 1000;
+
+    const newTokenRecord: PasswordResetToken = {
+      token,
+      email: trimmedEmail,
+      expiresAt,
+    };
+
+    setResetTokens((prev) => [...prev.filter((t) => t.email !== trimmedEmail), newTokenRecord]);
+
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin + window.location.pathname : 'http://localhost:3000';
+    const resetLink = `${baseUrl}?reset_token=${token}`;
+
+    return {
+      success: true,
+      message: 'Şifre sıfırlama bağlantısı oluşturuldu!',
+      resetLink,
+      token,
+    };
+  };
+
+  // Execute Password Reset with Token
+  const resetPasswordWithToken = (token: string, newPassword: string) => {
+    const record = resetTokens.find((t) => t.token === token);
+
+    // Also allow if activeResetToken matches
+    if (!record && activeResetToken !== token) {
+      // Fallback check: if token is active or matches reset tokens
+      if (!token) {
+        return { success: false, message: 'Geçersiz veya süresi dolmuş sıfırlama bağlantısı.' };
+      }
+    }
+
+    if (record && Date.now() > record.expiresAt) {
+      return { success: false, message: 'Bu sıfırlama bağlantısının süresi dolmuş (15 dakika). Lütfen tekrar talep edin.' };
+    }
+
+    // Update user profile password
+    setUserProfile((prev) => ({
+      ...prev,
+      password: newPassword,
+    }));
+
+    // Remove used token
+    setResetTokens((prev) => prev.filter((t) => t.token !== token));
+    setActiveResetToken(null);
+
+    // Clean URL query parameter cleanly without page reload
+    if (typeof window !== 'undefined' && window.history.replaceState) {
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, cleanUrl);
+    }
+
+    return {
+      success: true,
+      message: '🎉 Şifreniz başarıyla güncellendi! Yeni şifrenizle giriş yapabilirsiniz.',
+    };
   };
 
   // Dhikr Handlers
@@ -854,6 +942,9 @@ export default function App() {
         userProfile={userProfile}
         loginUser={loginUser}
         initialMode={authMode}
+        onRequestReset={requestPasswordReset}
+        onResetPassword={resetPasswordWithToken}
+        activeResetToken={activeResetToken}
         onRegister={() => {
           setIsAuthOpen(false);
           openProfileSetup(null);

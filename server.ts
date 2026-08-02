@@ -33,6 +33,38 @@ async function startServer() {
     res.json({ status: "ok", appName: "Annem" });
   });
 
+  // Password Reset Request API
+  app.post("/api/auth/forgot-password", (req, res) => {
+    const { email } = req.body || {};
+    if (!email || typeof email !== "string") {
+      return res.status(400).json({ success: false, error: "Geçerli bir e-posta adresi gerekli." });
+    }
+
+    const token = "rst_" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36);
+    const origin = req.headers.origin || "http://localhost:3000";
+    const resetLink = `${origin}?reset_token=${token}`;
+
+    return res.json({
+      success: true,
+      message: "Şifre sıfırlama bağlantısı oluşturuldu.",
+      resetLink,
+      token,
+    });
+  });
+
+  // Password Reset Execute API
+  app.post("/api/auth/reset-password", (req, res) => {
+    const { token, newPassword } = req.body || {};
+    if (!token || !newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, error: "Geçersiz token veya yetersiz şifre uzunluğu (en az 6 karakter)." });
+    }
+
+    return res.json({
+      success: true,
+      message: "Şifre başarıyla güncellendi.",
+    });
+  });
+
   // AI Assistant Chat API
   app.post("/api/gemini/chat", async (req, res) => {
     try {

@@ -93,6 +93,11 @@ export default function App() {
   const [badges, setBadges] = useLocalStorage<Badge[]>('annem_badges_v10', initialBadges);
   const [dhikrList, setDhikrList] = useLocalStorage<DhikrItem[]>('annem_dhikr_v10', initialDhikrList);
   const [books, setBooks] = useLocalStorage<LibraryBook[]>('annem_library_v10', []);
+  // EvIsleri checked state persisted in localStorage for daily reset
+  const [evIsleriChecked, setEvIsleriChecked] = useLocalStorage<Record<string, boolean>>('annem_evisleri_checked_v10', {});
+  // Reset timestamps
+  const [lastDailyReset, setLastDailyReset] = useLocalStorage<string>('annem_last_daily_reset_v10', '');
+  const [lastWeeklyReset, setLastWeeklyReset] = useLocalStorage<string>('annem_last_weekly_reset_v10', '');
 
   // Tab & Modal Navigation
   const [currentTab, setCurrentTab] = useState<TabType>('home');
@@ -103,6 +108,64 @@ export default function App() {
   const [setupProfile, setSetupProfile] = useState<UserProfile | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [quoteIndex, setQuoteIndex] = useState<number>(() => Math.floor(Math.random() * motivationalQuotes.length));
+
+  // ─── AUTO RESET LOGIC ─────────────────────────────────────────────────────
+  // Helper to get today's date string (YYYY-MM-DD)
+  const getTodayStr = () => new Date().toISOString().split('T')[0];
+
+  // Helper to get the start-of-week key (Monday-based, 7-day cycle from first use)
+  const getWeekKey = (dateStr: string) => {
+    const d = new Date(dateStr);
+    // Use Monday as week start
+    const day = d.getDay(); // 0=Sun, 1=Mon...
+    const diff = (day === 0 ? -6 : 1 - day);
+    const monday = new Date(d);
+    monday.setDate(d.getDate() + diff);
+    return monday.toISOString().split('T')[0];
+  };
+
+  useEffect(() => {
+    const todayStr = getTodayStr();
+
+    // ── DAILY RESET (Günlük Plan, Huşu & Zikir, Su, Egzersiz, Ev İşleri) ──
+    if (lastDailyReset !== todayStr) {
+      // 1. Reset routine item completions (Günlük Plan)
+      setRoutineList((prev) => prev.map((item) => ({ ...item, completed: false })));
+
+      // 2. Reset dhikr counts (Huşu & Zikir)
+      setDhikrList((prev) => prev.map((item) => ({ ...item, currentCount: 0 })));
+
+      // 3. Reset water log (Su Takibi)
+      setWaterLog((prev) => ({ ...prev, glasses: 0, date: todayStr }));
+
+      // 4. Reset exercise completions for today (Egzersiz)
+      // Only remove today's date if already marked (fresh day starts unchecked)
+      setExercises((prev) =>
+        prev.map((e) => ({
+          ...e,
+          completedDates: e.completedDates.filter((d) => d !== todayStr),
+        }))
+      );
+
+      // 5. Reset ev işleri checked state (Ev İşleri)
+      setEvIsleriChecked({});
+
+      // Mark today as reset
+      setLastDailyReset(todayStr);
+    }
+
+    // ── WEEKLY RESET (Alışkanlık — her 7 günde bir) ──
+    const currentWeekKey = getWeekKey(todayStr);
+    const lastWeekKey = lastWeeklyReset ? getWeekKey(lastWeeklyReset) : '';
+    if (lastWeeklyReset === '' || currentWeekKey !== lastWeekKey) {
+      // Clear all completed dates from habits for a fresh week
+      setHabits((prev) => prev.map((h) => ({ ...h, completedDates: [] })));
+      setLastWeeklyReset(todayStr);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // ─── END AUTO RESET ───────────────────────────────────────────────────────
 
   // Reset legacy sample profile data if present
   useEffect(() => {
@@ -672,7 +735,12 @@ export default function App() {
         )}
 
         {currentTab === 'evisleri' && (
-          <EvIsleriTab />
+          <EvIsleriTab
+            checked={evIsleriChecked}
+            onToggleCheck={(id) =>
+              setEvIsleriChecked((prev) => ({ ...prev, [id]: !prev[id] }))
+            }
+          />
         )}
 
         {currentTab === 'library' && (

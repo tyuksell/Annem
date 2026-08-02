@@ -8,6 +8,11 @@ interface ChoreTask {
   icon: string;
 }
 
+interface EvIsleriTabProps {
+  checked: Record<string, boolean>;
+  onToggleCheck: (id: string) => void;
+}
+
 const CHORES: ChoreTask[] = [
   {
     id: 'chore-1',
@@ -82,15 +87,14 @@ const PAGES = [
 
 const todayKey = (): string => new Date().toISOString().split('T')[0];
 
-export const EvIsleriTab: React.FC = () => {
+export const EvIsleriTab: React.FC<EvIsleriTabProps> = ({ checked, onToggleCheck }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
   const taskListRef = useRef<HTMLDivElement>(null);
 
   const toggleCheck = (id: string) => {
-    setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+    onToggleCheck(id);
   };
 
   const goToPage = (page: number) => {
